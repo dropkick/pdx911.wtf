@@ -16,6 +16,7 @@ The application consists of three main components:
 
 ## Structure
 
+```
 pdx911.wtf/
 ├── src/ # Source files for Astro site
 │ ├── components/
@@ -41,7 +42,10 @@ pdx911.wtf/
 │ ├── feed-fetcher/ # Feed processing system
 │ └── logs/ # Log directory
 │
+├── db-config.php # database access credentials (place 1 level above public web root)
+├── db-structure.sql # SQL to build DB table
 └── README.md
+```
 
 ## Features
 
@@ -64,9 +68,9 @@ pdx911.wtf/
 ### Agencies Displayed
 
 - Portland Police
-- Portland Fire
-- Multnomah County Sheriff
-- Medical Response (highlighted separately)
+- Portland Fire (mostly fire alarm calls here)
+- Multnomah County Sheriff (no longer included in source data)
+- Medical Response (no longer included in source data)
 
 ## Technical Details
 
@@ -74,6 +78,7 @@ pdx911.wtf/
 
 - [Astro](https://astro.build)
 - [Mapbox GL JS](https://docs.mapbox.com/mapbox-gl-js/guides/)
+- JavaScript
 - PHP
 - MySQL/MariaDB
 
@@ -119,8 +124,9 @@ Available at `/util/feed-fetcher/`
 3. Create database and import schema
 4. Copy example configs and update:
 5. cp pdx911-db-config.example.php pdx911-db-config.php
-Create .env file:
-PUBLIC_MAPBOX_TOKEN="your_token_here"
+
+6.Create .env file:
+`PUBLIC_MAPBOX_TOKEN="your_token_here"`
 
 Development Server
 `npm run dev`
@@ -133,8 +139,12 @@ Deployment
 1. Build the site:
 `npm run build`
 2. Upload contents of dist/ to web root
-3. Set up feed fetcher cron job:
+3. Import database structure from db-structure.sql
+4. Populate db-config.php with database access credentials and place 1 level above public web root
+5. Set up feed fetcher cron job:
 `*/5 * * * * /usr/bin/php /path/to/feed-fetcher/index.php`
+OR via http
+`*/5 * * * * /usr/bin/curl --silent --compressed https://pdx911.wtf/util/feed-fetcher/`
 
 License
 MIT License
