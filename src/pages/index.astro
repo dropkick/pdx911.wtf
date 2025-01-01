@@ -1,11 +1,77 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// src/pages/index.astro
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Live map of 911 dispatches in Portland Oregon | PDX911.wtf</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+    />
+    <meta
+      name="description"
+      content="What are all those sirens about? Here's the 50 most recent calls for service to Portland 911. Data is updated approx. every 5 minutes."
+    />
+    <link rel="icon" type="image/gif" href="/favicon.gif" />
+    <script
+      defer
+      data-domain="pdx911.wtf"
+      src="https://stats.dropkick.us/js/script.js"></script>
+
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.js"
+    ></script>
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v3.4.0/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <link href="/assets/css/style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="header">
+      <h1>PDX 911 Calls</h1>
+      <div id="list-toggle" class="btn">CALL<br /> LIST</div>
+      <!-- <div id="reload" class="btn">↻</div> -->
+      <!-- <div id="reset" class="btn">⌖</div> -->
+      <div id="reload" class="btn">
+        <svg viewBox="0 0 93.23 89" xmlns="http://www.w3.org/2000/svg">
+          <g fill="#eff5ec">
+            <path
+              d="m14.11 33a34.44 34.44 0 0 1 61.7-6.8l-4.5 2.3a2.69 2.69 0 0 0 -.2 4.7l16.2 9.9a2.74 2.74 0 0 0 4.1-2.1l1.8-18.9a2.73 2.73 0 0 0 -3.9-2.7l-4.5 2.3a44.44 44.44 0 0 0 -80.7 9.8 2.33 2.33 0 0 0 2.3 3h5.59a2.26 2.26 0 0 0 2.11-1.5z"
+            ></path>
+            <path
+              d="m46.61 89a44.6 44.6 0 0 0 42.5-31.4 2.33 2.33 0 0 0 -2.3-3h-5.6a2.29 2.29 0 0 0 -2.21 1.5 34.39 34.39 0 0 1 -61.6 6.7l4.5-2.3a2.69 2.69 0 0 0 .2-4.7l-16.29-9.9a2.74 2.74 0 0 0 -4.1 2.1l-1.71 18.9a2.73 2.73 0 0 0 3.9 2.7l4.5-2.3a44.74 44.74 0 0 0 38.21 21.7z"
+            ></path>
+            <circle cx="46.61" cy="44.5" r="14.6"></circle>
+          </g>
+        </svg>
+      </div>
+      <div id="reset" class="btn">
+        <svg viewBox="0 0 87.52 81.49" xmlns="http://www.w3.org/2000/svg">
+          <g fill="#eff5ec">
+            <path
+              d="m35.28 66.39h-17.28a1.42 1.42 0 0 0 -.6.2l-17 13.1a1 1 0 0 0 -.3 1.1 1.07 1.07 0 0 0 .9.7h85.6a1 1 0 0 0 .9-.7 1.07 1.07 0 0 0 -.3-1.1l-16.8-13.1a1.42 1.42 0 0 0 -.6-.2h-17.32m-1.9 2h2.3l4.3 11.1h-26.7l4.3-11.1h2.4m32.3 0 14.4 11.1h-24.5l-4.3-11.1zm-36.8 0-4.3 11.1h-24.38l14.4-11.1z"
+            ></path>
+            <path
+              d="m43.88 0a29.73 29.73 0 0 0 -29.73 29.73 29.73 29.73 0 0 0 19.61 27.92l10.12 17.54 10.12-17.55a29.71 29.71 0 0 0 -10.12-57.64zm0 51.78a22.05 22.05 0 1 1 22.05-22 22 22 0 0 1 -22.05 22z"
+            ></path>
+            <circle cx="43.76" cy="29.73" r="12.64"></circle>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <div class="sidebar">
+      <div id="listings" class="listings"></div>
+    </div>
+
+    <div id="map"></div>
+
+    <script>
+      import { initializeMap } from "../components/Map/index.js";
+      document.addEventListener("DOMContentLoaded", initializeMap);
+    </script>
+  </body>
+</html>
